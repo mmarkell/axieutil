@@ -1,0 +1,3 @@
+[submodule "axie-scholar-utilities"]
+	path = axie-scholar-utilities
+	url = https://github.com/FerranMarin/axie-scholar-utilities.git
