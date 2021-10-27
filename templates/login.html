@@ -12,13 +12,29 @@ block styles %} {{ super() }}
     <a href="/"> Axie Tools </a>
   </h1>
   <hr />
-  <div class="row align-items-center"">
-    <div class="col-2">{{wtf.quick_form(form)}}</div>
-    <br />
-    {% if message %}
-      <div class="alert alert-danger" role="alert">{{ message }}</div>
-    {% endif %}
+
+  <div class="row">
+    <div class="col-lg-3 col-lg-offset-2 gauche">
+      <div>
+        <div class="col-2">{{wtf.quick_form(form)}}</div>
+        <br />
+        {% if message %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-lg-5 corps">
+      <div>Your CSV should be in this format</div>
+      <pre>
+          ronin:abc1,0xsecretabc1
+          ronin:abc2,0xsecretabc2
+          ronin:abc3,0xsecretabc3
+          ronin:abc4,0xsecretabc4
+        </pre
+      >
+    </div>
+
+    {% endblock %}
   </div>
 </div>
-
-{% endblock %}

@@ -12,8 +12,28 @@ block styles %} {{ super() }}
     <a href="/"> Axie Tools </a>
   </h1>
   <hr />
-  <div class="row">
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+
+  <div>
+    <div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        {{wtf.quick_form(form)}}
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <p class="pt-5"><strong>{{ message }}</strong></p>
+      </div>
+    </div>
+
+    <p>
+      <a
+        class="btn btn-primary"
+        data-toggle="collapse"
+        href="#privateKeys"
+        role="button"
+        aria-expanded="false"
+        aria-controls="collapseExample"
+      >
+        Show Private Keys
+      </a>
       <a
         class="btn btn-primary"
         target="_blank"
@@ -21,35 +41,33 @@ block styles %} {{ super() }}
         href="https://axie.management/tracker/payments"
         >Download the payments file</a
       >
+    </p>
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <div class="collapse" id="privateKeys">
+      <div class="row">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Ronin Address</th>
+              <th scope="col">Private Key</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for key in secrets %}
+            <tr>
+              <th scope="row">{{ loop.index }}</th>
+              <td>{{ key }}</td>
+              <td>{{ secrets[key] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-      {{wtf.quick_form(form)}}
-    </div>
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-      <p class="pt-5"><strong>{{ message }}</strong></p>
-    </div>
-  </div>
-  <hr />
-  <h1>Private Keys</h1>
-  <div class="row">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Ronin Address</th>
-          <th scope="col">Private Key</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for key in secrets %}
-        <tr>
-          <th scope="row">{{ loop.index }}</th>
-          <td>{{ key }}</td>
-          <td>{{ secrets[key] }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
   </div>
 </div>
 
