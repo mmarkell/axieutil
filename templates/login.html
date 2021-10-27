@@ -1,0 +1,24 @@
+{% extends 'bootstrap/base.html' %} {% import "bootstrap/wtf.html" as wtf %} {%
+block styles %} {{ super() }}
+<style>
+  body {
+    background: #e8f1f9;
+  }
+</style>
+{% endblock %} {% block title %} Axie Tools {% endblock %} {% block content %}
+
+<div class="container">
+  <h1 class="text-center">
+    <a href="/"> Axie Tools </a>
+  </h1>
+  <hr />
+  <div class="row align-items-center"">
+    <div class="col-2">{{wtf.quick_form(form)}}</div>
+    <br />
+    {% if message %}
+      <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

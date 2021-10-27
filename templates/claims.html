@@ -1,0 +1,75 @@
+{% extends 'bootstrap/base.html' %} {% import "bootstrap/wtf.html" as wtf %} {%
+block styles %} {{ super() }}
+<style>
+  body {
+    background: #e8f1f9;
+  }
+</style>
+{% endblock %} {% block title %} Axie Tools {% endblock %} {% block content %}
+
+<div class="container">
+  <h1 class="text-center">
+    <a href="/"> Axie Tools </a>
+  </h1>
+  <hr />
+  <div class="row">
+    <h1>Please verify this information:</h1>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>
+    <hr />
+    <h3>Manager: {{ payment_percents['Manager']}}</h3>
+    <h3>Scholars</h3>
+    <div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Account Address</th>
+            <th scope="col">Scholar Payout Address</th>
+            <th scope="col">Scholar Percent</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for scholar in payment_percents['Scholars'] %}
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>Name: {{ scholar['Name'] }}</td>
+            <td>{{ scholar['AccountAddress'] }}</td>
+            <td>{{ scholar['ScholarPayoutAddress'] }}</td>
+            <td>{{ scholar['ScholarPercent'] }}%</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <hr />
+    <h3>Private Keys</h3>
+    <div class="row">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Ronin Address</th>
+            <th scope="col">Private Key</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for key in secrets %}
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ key }}</td>
+            <td>{{ secrets[key] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="margin-bottom: 5%">
+    <h1>If you are ready to proceed, please press the button</h1>
+    {{ wtf.quick_form(form)}}
+  </div>
+
+  {% endblock %}
+</div>
