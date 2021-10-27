@@ -20,6 +20,9 @@ block styles %} {{ super() }}
       You have claimed {{ claimed_amount }} SLP
     </div>
   </div>
+  {% if message %}
+  <div class="alert alert-danger" role="alert">{{ message }}</div>
+  {% endif %}
 </div>
 
 {% endblock %}

@@ -31,7 +31,9 @@ def create_app():
         form = ProcessClaimsForm()
         secrets = session['secrets']
         payment_percents = session['payment_percents']
+        message = False
         if form.validate_on_submit():
+            message = False
             if not secrets or not payment_percents:
                 return render_template('claims.html', form=form, payment_percents=payment_percents, secrets=secrets)
             
@@ -49,9 +51,8 @@ def create_app():
                 acm.verify_inputs()
                 claimed_amount = acm.prepare_claims()
             except BaseException as err:
-                print(err)
-            finally:
-                return render_template('complete.html', paid_scholars_amount=paid_scholars_amount, claimed_amount=claimed_amount)
+                message = str(err)
+            return render_template('complete.html', paid_scholars_amount=paid_scholars_amount, claimed_amount=claimed_amount, message=message)
         return render_template('claims.html', form=form, payment_percents=payment_percents, secrets=secrets)
 
     @app.route('/payments/', methods=['GET', 'POST'])
