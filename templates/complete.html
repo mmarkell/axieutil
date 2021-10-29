@@ -1,4 +1,7 @@
-{% extends 'bootstrap/base.html' %} {% import "bootstrap/wtf.html" as wtf %} {%
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+{% extends 'bootstrap/base.html' %} {% import "bootstrap/wtf.html" as wtf %}
+
+{%
 block styles %} {{ super() }}
 <style>
   body {
@@ -24,5 +27,4 @@ block styles %} {{ super() }}
   <div class="alert alert-danger" role="alert">{{ message }}</div>
   {% endif %}
 </div>
-
 {% endblock %}
