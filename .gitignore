@@ -3,3 +3,7 @@ __pycache__/
 build/
 dist/
 node_modules/
+lib/
+bin/
+pyvenv.cfg
+app.pyc
