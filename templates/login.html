@@ -1,4 +1,3 @@
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 {% extends 'bootstrap/base.html' %} {% import "bootstrap/wtf.html" as wtf %} {%
 block styles %} {{ super() }}
 <style>
@@ -15,9 +14,9 @@ block styles %} {{ super() }}
   <hr />
 
   <div class="row">
-    <div class="col-lg-3 col-lg-offset-2 gauche">
+    <div class="col-sm">
       <div>
-        <div class="col-2">{{wtf.quick_form(form)}}</div>
+        <div>{{wtf.quick_form(form)}}</div>
         <br />
         {% if message %}
         <div class="alert alert-danger" role="alert">{{ message }}</div>
@@ -25,15 +24,15 @@ block styles %} {{ super() }}
       </div>
     </div>
 
-    <div class="col-lg-5 corps">
+    <div class="col-sm">
       <div>Your CSV should be in this format</div>
-      <pre>
-          ronin:abc1,0xsecretabc1
-          ronin:abc2,0xsecretabc2
-          ronin:abc3,0xsecretabc3
-          ronin:abc4,0xsecretabc4
-        </pre
-      >
+      <code>ronin:abc1,0xsecretabc1</code>
+      <br />
+      <code>ronin:abc2,0xsecretabc2</code>
+      <br />
+      <code>ronin:abc3,0xsecretabc3</code>
+      <br />
+      <code>ronin:abc4,0xsecretabc4</code>
     </div>
     {% endblock %}
   </div>
