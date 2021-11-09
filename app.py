@@ -109,3 +109,5 @@ def create_app():
     Bootstrap(app)
 
     return app
+
+app = create_app()
