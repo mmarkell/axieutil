@@ -15,8 +15,6 @@ bleach==3.3.0
 blinker==1.4
 certifi==2021.10.8
 cffi==1.14.5
-chardet @ file:///Users/michaelmarkell/Library/Caches/pypoetry/artifacts/11/63/f9/797eda27963177a6b75a340f62aa194d462ea69e6b0dbb77a651fa2b62/chardet-4.0.0-py2.py3-none-any.whl
-charset-normalizer @ file:///Users/michaelmarkell/Library/Caches/pypoetry/artifacts/60/9d/97/5c35a4c5a6e37e38d2600ab781b057b4608ed14e132f7ed44374e2e513/charset_normalizer-2.0.7-py3-none-any.whl
 click==8.0.3
 click-aliases==1.0.1
 cycler==0.10.0
@@ -57,7 +55,6 @@ greenlet==1.1.2
 gunicorn==20.0.4
 hdwallet==2.0.1
 hexbytes==0.2.2
-idna @ file:///Users/michaelmarkell/Library/Caches/pypoetry/artifacts/d5/04/80/9c17fd3240a37d12ff2ef042b0306aeb1abd2d8b95f150fd60be938352/idna-3.3-py3-none-any.whl
 iniconfig==1.1.1
 intervaltree==3.1.0
 ipfshttpclient==0.8.0a2
@@ -106,7 +103,6 @@ parso==0.8.2
 pexpect==4.8.0
 pickle-cache==0.1.0
 pickleshare==0.7.5
-Pillow @ file:///Users/michaelmarkell/Library/Caches/pypoetry/artifacts/05/92/61/601fb1306a1b88900c4d9e78ec9d54ee3b005ea76b130577b339a802b1/Pillow-8.4.0-cp39-cp39-macosx_10_10_x86_64.whl
 pipreqs==0.4.10
 pluggy==1.0.0
 polyline==1.4.0
@@ -123,12 +119,9 @@ pyinstaller-hooks-contrib==2021.3
 PyJWT==2.1.0
 pylint==2.4.4
 pymongo==3.10.1
-pyparsing @ file:///Users/michaelmarkell/Library/Caches/pypoetry/artifacts/c8/37/d8/72f114cfbdc5eed56de7352efb9fa1718f029d32698ba86103a42bed72/pyparsing-3.0.2-py3-none-any.whl
 pyrsistent==0.18.0
 pysha3==1.0.2
 pytest==6.2.5
-pytest-asyncio @ file:///Users/michaelmarkell/Library/Caches/pypoetry/artifacts/cd/94/0a/e081e43f45e71daced5d86c5c5e114799e91ddb20a326f9e640d8f73fa/pytest_asyncio-0.15.1-py3-none-any.whl
-pytest-mock @ file:///Users/michaelmarkell/Library/Caches/pypoetry/artifacts/9e/32/45/f1870a009e94160a57aa7281cc7f282591310d3966123097d0f16e150a/pytest_mock-3.6.1-py3-none-any.whl
 python-constraint==1.4.0
 python-dateutil==2.8.2
 python-dotenv==0.19.1
@@ -140,7 +133,6 @@ qtconsole==5.1.0
 QtPy==1.9.0
 ratelim==0.1.6
 rauth==0.7.3
-requests @ file:///Users/michaelmarkell/Library/Caches/pypoetry/artifacts/13/00/3d/5574756561eed6b522f5b13d5a2c05c2920860b05b1e687c3792495ba0/requests-2.26.0-py2.py3-none-any.whl
 requests-mock==1.9.3
 rlp==2.0.1
 scipy==1.6.3
@@ -161,7 +153,6 @@ traitlets==5.0.5
 twilio==7.0.0
 typed-ast==1.4.1
 typing-extensions==3.10.0.2
-urllib3 @ file:///Users/michaelmarkell/Library/Caches/pypoetry/artifacts/55/46/d1/1acba0600879bfaada54191116fbaea89a464f437b3f949bc9c2a220e7/urllib3-1.26.7-py2.py3-none-any.whl
 varint==1.0.2
 visitor==0.1.3
 wcwidth==0.2.5
