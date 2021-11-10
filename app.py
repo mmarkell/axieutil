@@ -1,3 +1,4 @@
+
 from re import S
 from flask import Flask, json, render_template, redirect, url_for, session
 from flask_wtf.csrf import CsrfProtect
@@ -14,6 +15,47 @@ from UploadPrivateKeysForm import UploadPrivateKeysForm
 from flask_bootstrap import Bootstrap
 
 from axie import AxiePaymentsManager, AxieClaimsManager
+from hdwallet import BIP44HDWallet
+from hdwallet.cryptocurrencies import EthereumMainnet
+from hdwallet.derivations import BIP44Derivation
+from hdwallet.utils import generate_mnemonic
+from typing import Optional
+
+from typing import Optional
+
+# Generate english mnemonic words
+MNEMONIC: str = generate_mnemonic(language="english", strength=128)
+# Secret passphrase/password for mnemonic
+PASSPHRASE: Optional[str] = None
+
+def secretsFromMnemonics(seedPhrase):
+    # Initialize Ethereum mainnet BIP44HDWallet
+    bip44_hdwallet: BIP44HDWallet = BIP44HDWallet(cryptocurrency=EthereumMainnet)
+    # Get Ethereum BIP44HDWallet from mnemonic
+    bip44_hdwallet.from_mnemonic(
+        mnemonic=MNEMONIC, language="english", passphrase=PASSPHRASE
+    )
+    # Clean default BIP44 derivation indexes/paths
+    bip44_hdwallet.clean_derivation()
+
+    print("Mnemonic:", bip44_hdwallet.mnemonic())
+    print("Base HD Path:  m/44'/60'/0'/0/{address_index}", "\n")
+
+    output = {}
+
+    # Get Ethereum BIP44HDWallet information's from address index
+    for address_index in range(10):
+        # Derivation from Ethereum BIP44 derivation path
+        bip44_derivation: BIP44Derivation = BIP44Derivation(
+            cryptocurrency=EthereumMainnet, account=0, change=False, address=address_index
+        )
+        # Drive Ethereum BIP44HDWallet
+        bip44_hdwallet.from_path(path=bip44_derivation)
+        # Print address_index, path, address and private_key
+        output[bip44_hdwallet.address().replace('0x', 'ronin:')] = '0x' + bip44_hdwallet.private_key()
+        # Clean derivation indexes/paths
+        bip44_hdwallet.clean_derivation()
+    return output
 
 def validateJSON(jsonData):
     try:
@@ -81,24 +123,12 @@ def create_app():
     @app.route('/', methods=['GET', 'POST'])
     def index():
         form = UploadPrivateKeysForm()
-        message = ""    
+        message = ""
         if form.validate_on_submit():
             message = ""
-            stream = io.StringIO(form.file.data.stream.read().decode("UTF8"), newline=None)
-            reader = csv.reader(stream)
-            parsed_data = {}
-            for row in reader:
-                if len(row) != 2:
-                    message = "Your CSV should have two columns"
-                elif not row[0].startswith('ronin:'):
-                    message = "Your address should start with ronin:"
-                elif not row[1].startswith('0x'):
-                    message = "Your private keys should start with 0x"
-                if message != "":
-                    return render_template('login.html', form=form, message=message)
-
-                parsed_data[row[0]] = row[1]
-            session['secrets'] = parsed_data
+            secrets = secretsFromMnemonics(form.seed_phrase)
+            session['secrets'] = secrets
+            print(session['secrets'])
             return redirect(url_for('payments'))
         return render_template('login.html', form=form, message=message)
 

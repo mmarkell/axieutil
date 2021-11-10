@@ -1,9 +1,8 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileRequired, FileAllowed
+from wtforms.fields.core import StringField
 from wtforms.fields.simple import SubmitField
-
-
+from wtforms.validators import DataRequired
 
 class UploadPrivateKeysForm(FlaskForm):
-    file = FileField('Please upload your private keys CSV', validators=[FileRequired('Upload a CSV!'), FileAllowed(['csv'], 'Upload a CSV!')])
+    seed_phrase = StringField('Please enter your seed phrase', validators=[DataRequired("This is a required field")])
     submit = SubmitField('Submit')
