@@ -1,8 +1,11 @@
 
+import logging
 from re import S
-from flask import Flask, json, render_template, redirect, url_for, session
+from flask import Flask, flash, json, render_template, redirect, url_for, session
 from flask_wtf.csrf import CsrfProtect
-import csv
+import requests
+
+from requests.adapters import RetryError
 
 from ProcessClaimsForm import ProcessClaimsForm
 csrf = CsrfProtect()
@@ -18,23 +21,27 @@ from axie import AxiePaymentsManager, AxieClaimsManager
 from hdwallet import BIP44HDWallet
 from hdwallet.cryptocurrencies import EthereumMainnet
 from hdwallet.derivations import BIP44Derivation
-from hdwallet.utils import generate_mnemonic
-from typing import Optional
 
 from typing import Optional
 
-# Generate english mnemonic words
-MNEMONIC: str = generate_mnemonic(language="english", strength=128)
-# Secret passphrase/password for mnemonic
-PASSPHRASE: Optional[str] = None
+def has_unclaimed_slp(acc):
+    url = f"https://game-api.skymavis.com/game-api/clients/{acc}/items/1"
+    try:
+        response = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) "
+                           "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1944.0 Safari/537.36"})
+    except RetryError:
+        logging.critical(f"Failed to check if there is unclaimed SLP for acc {acc}")
+        return False
+    if 200 <= response.status_code <= 299:
+        return int(response.json()['total'])
+    return False
 
 def secretsFromMnemonics(seedPhrase):
     # Initialize Ethereum mainnet BIP44HDWallet
     bip44_hdwallet: BIP44HDWallet = BIP44HDWallet(cryptocurrency=EthereumMainnet)
     # Get Ethereum BIP44HDWallet from mnemonic
-    bip44_hdwallet.from_mnemonic(
-        mnemonic=MNEMONIC, language="english", passphrase=PASSPHRASE
-    )
+    print(seedPhrase)
+    bip44_hdwallet.from_mnemonic(mnemonic=seedPhrase)
     # Clean default BIP44 derivation indexes/paths
     bip44_hdwallet.clean_derivation()
 
@@ -44,15 +51,17 @@ def secretsFromMnemonics(seedPhrase):
     output = {}
 
     # Get Ethereum BIP44HDWallet information's from address index
-    for address_index in range(10):
+    for i in range(120):
         # Derivation from Ethereum BIP44 derivation path
         bip44_derivation: BIP44Derivation = BIP44Derivation(
-            cryptocurrency=EthereumMainnet, account=0, change=False, address=address_index
+            cryptocurrency=EthereumMainnet, account=0, change=False, address=i
         )
         # Drive Ethereum BIP44HDWallet
         bip44_hdwallet.from_path(path=bip44_derivation)
-        # Print address_index, path, address and private_key
-        output[bip44_hdwallet.address().replace('0x', 'ronin:')] = '0x' + bip44_hdwallet.private_key()
+
+        if has_unclaimed_slp(bip44_hdwallet.address()):
+            output[bip44_hdwallet.address().replace('0x', 'ronin:')] = '0x' + bip44_hdwallet.private_key()
+            # Print address_index, path, address and private_key
         # Clean derivation indexes/paths
         bip44_hdwallet.clean_derivation()
     return output
@@ -71,6 +80,7 @@ def create_app():
     @app.route('/claim/', methods=['GET', 'POST'])
     def claim():
         form = ProcessClaimsForm()
+        
         secrets = session['secrets']
         payment_percents = session['payment_percents']
         message = False
@@ -126,10 +136,15 @@ def create_app():
         message = ""
         if form.validate_on_submit():
             message = ""
-            secrets = secretsFromMnemonics(form.seed_phrase)
-            session['secrets'] = secrets
-            print(session['secrets'])
-            return redirect(url_for('payments'))
+            try:
+                flash('This may take a while')
+                secrets = secretsFromMnemonics(form.seed_phrase.data)
+                print('adding secrets', secrets)
+                session['secrets'] = secrets
+                return redirect(url_for('payments'))
+            except Exception as err:
+                message = str(err)
+                return render_template('login.html', form=form, message=message)
         return render_template('login.html', form=form, message=message)
 
     app.jinja_env.auto_reload = True

@@ -14,6 +14,7 @@ block styles %} {{ super() }}
   <hr />
 
   <div>
+    {% if secrets|length > 0 %}
     <div>
       <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
         {{wtf.quick_form(form)}}
@@ -22,7 +23,6 @@ block styles %} {{ super() }}
         <p class="pt-5"><strong>{{ message }}</strong></p>
       </div>
     </div>
-
     <p>
       <a
         class="btn btn-primary"
@@ -68,6 +68,9 @@ block styles %} {{ super() }}
         </table>
       </div>
     </div>
+    {% else %}
+    <div>No SLP to collect at this time</div>
+    {% endif %}
   </div>
 </div>
 
