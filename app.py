@@ -40,14 +40,9 @@ def secretsFromMnemonics(seedPhrase):
     # Initialize Ethereum mainnet BIP44HDWallet
     bip44_hdwallet: BIP44HDWallet = BIP44HDWallet(cryptocurrency=EthereumMainnet)
     # Get Ethereum BIP44HDWallet from mnemonic
-    print(seedPhrase)
     bip44_hdwallet.from_mnemonic(mnemonic=seedPhrase)
     # Clean default BIP44 derivation indexes/paths
     bip44_hdwallet.clean_derivation()
-
-    print("Mnemonic:", bip44_hdwallet.mnemonic())
-    print("Base HD Path:  m/44'/60'/0'/0/{address_index}", "\n")
-
     output = {}
 
     # Get Ethereum BIP44HDWallet information's from address index
