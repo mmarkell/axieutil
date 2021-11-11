@@ -2,7 +2,7 @@
 
 [Public Demo](https://axieutil.herokuapp.com/)
 
-### Steps to ru
+### Steps to run
 
 ```
 python3 -m venv venv
