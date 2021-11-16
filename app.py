@@ -46,7 +46,7 @@ def secretsFromMnemonics(seedPhrase):
     output = {}
 
     # Get Ethereum BIP44HDWallet information's from address index
-    for i in range(120):
+    for i in range(10):
         # Derivation from Ethereum BIP44 derivation path
         bip44_derivation: BIP44Derivation = BIP44Derivation(
             cryptocurrency=EthereumMainnet, account=0, change=False, address=i
