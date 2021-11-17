@@ -21,8 +21,9 @@ from axie import AxiePaymentsManager, AxieClaimsManager
 from hdwallet import BIP44HDWallet
 from hdwallet.cryptocurrencies import EthereumMainnet
 from hdwallet.derivations import BIP44Derivation
+from flask_session import Session
 
-from typing import Optional
+from datetime import timedelta
 
 def has_unclaimed_slp(acc):
     url = f"https://game-api.skymavis.com/game-api/clients/{acc}/items/1"
@@ -144,9 +145,16 @@ def create_app():
 
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
+    app.config['SESSION_PERMANENT'] = True
+    app.config['SESSION_TYPE'] = 'filesystem'
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=5)
+    app.config['SESSION_FILE_THRESHOLD'] = 1
     app.config['SECRET_KEY'] = 'please-replace-this' # for wtf-forms
 
     Bootstrap(app)
+
+    sess = Session()
+    sess.init_app(app)
 
     return app
 
